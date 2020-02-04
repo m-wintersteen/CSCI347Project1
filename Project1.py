@@ -5,6 +5,9 @@ CSCI 347 Project 1
 Python Code for Data Analysis
 '''
 import numpy as np
+import pandas as pd
+from numpy import genfromtxt
+from sklearn.impute import SimpleImputer
 
 '''
 A function to compute the mean of a numerical, multidimensional data set
@@ -48,5 +51,24 @@ def computeCovarMatrix(arr):
 '''
 A function to label-encode categorical data
 '''
-def labelEncode(arr)
+def labelEncode(arr):
     return encodedArr
+
+
+def main():
+    print("Reading input from file")
+    df = pd.read_csv('imports-85.data.csv', na_values=['?'])
+    df.columns = columns
+    df = pd.get_dummies(df, columns=categorical)
+    
+    for i in range(len(df.columns)):
+        df.iloc[:, i].fillna(df.iloc[:, i].mean(), inplace=True)
+        
+    print(df)
+    
+columns = ['symboling','normalized-losses','make','fuel-type','aspiration','num-of-doors','body-style','drive-wheels','engine-location','wheel-base','length','width','height','curb-weight','engine-type','num-of-cylinders','engine-size','fuel-system','bore','stroke','compression-ratio','horsepower','peak-rpm','city-mpg','highway-mpg','price']
+categorical = ['make','fuel-type','aspiration','num-of-doors','body-style','drive-wheels','engine-location','engine-type','num-of-cylinders','fuel-system']
+
+
+main()
+
