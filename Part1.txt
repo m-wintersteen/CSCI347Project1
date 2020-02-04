@@ -1,0 +1,14 @@
+Part 1:
+
+    The Automobile Data Set is a multivariate dataset with 26 attributes and 205 entities that is commonly used for regression. The data was used for analysing risk ratings of cars in terms of insurance based on the price and many characteristics. It was created/donated by Jeffrey C. Schlimmer. There are 16 numerical attributes and 10 categorical attributes. Most of the categorical attributes can be one-hot-encoded, except for the attribute 'num-of-cylinders', which has a specific order. There are missing values in the data. Approximately 1% of the data overall is missing. 
+    
+    Attribute #:   Number of instances missing a value:
+    2.          41
+    6.          2
+    19.         4
+    20.         4
+    22.         2
+    23.         2
+    26.         4
+    
+    This data set is interesting to me because it combines numerical and categorical attributes, it has a lot of attributes, and it seems like an interesting subject. The attributes that I think will be the most descriptive of the data are the horsepower and price attributes, because we are trying to look at the relationship between a cars characteristics and its insurance risk. A more powerful car and expensive car might be seen as more of a risk.
