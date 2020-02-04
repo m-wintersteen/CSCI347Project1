@@ -57,10 +57,11 @@ def labelEncode(arr):
 
 def main():
     print("Reading input from file")
-    df = pd.read_csv('imports-85.data.csv', na_values=['?'])
-    df.columns = columns
-    df = pd.get_dummies(df, columns=categorical)
+    df = pd.read_csv('imports-85.data.csv',header=None,names=columns, na_values=['?'])
     
+    #One-hot-encoding all categorical data
+    df = pd.get_dummies(df, columns=categorical)
+        
     for i in range(len(df.columns)):
         df.iloc[:, i].fillna(df.iloc[:, i].mean(), inplace=True)
         
