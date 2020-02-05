@@ -55,6 +55,14 @@ def computeCorr(v1, v2):
 A function to range normalize a two-dimensional numpy array
 '''
 def rangeNorm(arr):
+    normArr = arr
+    minimum = np.amin(normArr, axis=0)
+    maximum = np.amax(normArr, axis=0)
+    
+    normArr = normArr.astype('float32')
+    for col in range(len(normArr)):
+       for row in range(len(normArr[col,:])):
+           normArr[col][row] = (normArr[col][row]-minimum[row])/(maximum[row]-minimum[row])
     return normArr
 
 '''
@@ -77,7 +85,7 @@ def labelEncode(arr):
 
 #Tests all the python functions written for Part 2
 def testFunc():
-    a = np.array([[7,15,33,48,2],[5,15,34,50,0],[7,17,32,41,1]])
+    a = np.array([[7,14,33,48,-1],[5,15,34,50,0],[8,17,32,41,1]])
     v1 = np.array([1,2,3,2,4,1,2,1,1])
     v2 = np.array([4,1,3,1,1,0,2,1,3])
 
@@ -90,6 +98,9 @@ def testFunc():
     print("Testing compute correlation")
     print(computeCorr(v1,v2))
     print(np.corrcoef(v1,v2))
+    print("Testing range normalization")
+    print(rangeNorm(a))
+    
     
     
 
