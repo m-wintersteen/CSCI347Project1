@@ -10,6 +10,7 @@ import math
 from numpy import genfromtxt
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import MinMaxScaler
+import matplotlib.pyplot as plt
 
 '''
 A function to compute the mean of a numerical, multidimensional data set
@@ -112,6 +113,16 @@ def labelEncode(v):
         print("Removed Strings")
     return encodedV
 
+# A function to make a correlation matrix
+def computeCorrMatrix(arr):
+    n = arr.shape[1]
+    corrMatrix = np.zeros([n,n], dtype = float)
+    for col in range(n):
+        for row in range(n):
+            corrMatrix[col][row] = computeCorr(arr[:,col],arr[:,row])
+    
+    return corrMatrix
+
 #Tests all the python functions written for Part 2
 def testFunc():
     a = np.array([[7,14,33,48,-1],[5,15,34,50,0],[8,17,32,41,1]])
@@ -147,7 +158,7 @@ def testFunc():
 #Driver for Part 3
 def main():
     print("Reading input from file")
-    df = pd.read_csv('imports-85.data.csv',header=None,names=columns, na_values=['?'])
+    df = pd.read_csv('https://archive.ics.uci.edu/ml/machine-learning-databases/autos/imports-85.data',header=None,names=columns, na_values=['?'])
     
     #One-hot-encoding all categorical data
     df = pd.get_dummies(df, columns=categorical)
@@ -157,7 +168,11 @@ def main():
 
     arr = df.to_numpy()
     colNames = list(df.columns.values)
-    
+
+    #This code generates the multivariate mean and covar matrix
+    #and writes the output to a csv
+    #commented out to simplify things
+    '''
     #multivariate mean
     multMean = computeMean(arr)
     f = open("q1.csv", "w")
@@ -176,6 +191,132 @@ def main():
             else:
                 f.write("\n")
     f.close()
+    '''
+
+    #select attributes to plot
+    #commented out to simplify things
+    '''
+    plt.figure(1)
+    plt.scatter(arr[:, 38], arr[:, 1], color = 'red', marker = 'o')
+    plt.xlabel(colNames[38])
+    plt.ylabel(colNames[1])
+    
+    plt.figure(2)
+    plt.scatter(arr[:, 11], arr[:, 6], color = 'red', marker = 'o')
+    plt.xlabel(colNames[11])
+    plt.ylabel(colNames[6])
+
+    plt.figure(3)
+    plt.scatter(arr[:, 6], arr[:, 7], color = 'red', marker = 'o')
+    plt.xlabel(colNames[6])
+    plt.ylabel(colNames[7])
+
+    plt.figure(4)
+    plt.scatter(arr[:, 51], arr[:, 7], color = 'red', marker = 'o')
+    plt.xlabel(colNames[51])
+    plt.ylabel(colNames[7])
+
+    plt.figure(5)
+    plt.scatter(arr[:, 14], arr[:, 15], color = 'red', marker = 'o')
+    plt.xlabel(colNames[14])
+    plt.ylabel(colNames[15])
+
+    plt.show()
+    '''
+    
+    #range normalize the numerical data
+    '''
+    norm = rangeNorm(arr)
+    
+    normMatrix = computeCovarMatrix(norm)
+    f = open("q3-num.csv", "w")
+    for i in range(16):
+        for j in range(16):
+            if j != i:
+                f.write("{}".format(normMatrix[i][j]))
+            else:
+                f.write("0")
+            if (j != 15):
+                f.write(",")
+            else:
+                f.write("\n")
+    f.close()
+    
+    #plot the normalized attribute pairs with the highest covariance
+    plt.figure(1)
+    plt.scatter(norm[:, 6], norm[:, 3], color = 'blue', marker = 'x')
+    plt.xlabel(colNames[6])
+    plt.ylabel(colNames[3])
+    
+    plt.figure(2)
+    plt.scatter(norm[:, 15], norm[:, 6], color = 'blue', marker = 'x')
+    plt.xlabel(colNames[15])
+    plt.ylabel(colNames[6])
+
+    plt.figure(3)
+    plt.scatter(norm[:, 14], norm[:, 13], color = 'blue', marker = 'x')
+    plt.xlabel(colNames[14])
+    plt.ylabel(colNames[13])
+
+    plt.figure(4)
+    plt.scatter(norm[:, 6], norm[:, 4], color = 'blue', marker = 'x')
+    plt.xlabel(colNames[6])
+    plt.ylabel(colNames[4])
+
+    plt.figure(5)
+    plt.scatter(norm[:, 3], norm[:, 2], color = 'blue', marker = 'x')
+    plt.xlabel(colNames[3])
+    plt.ylabel(colNames[2])
+
+    plt.show()
+    '''
+    
+    #Take the standard norm and find the correlation for numerical attributes
+    norm = standardNorm(arr)
+    '''
+    normMatrix = computeCorrMatrix(norm)
+    f = open("q4.csv", "w")
+    for i in range(16):
+        for j in range(16):
+            if j != i:
+                f.write("{}".format(normMatrix[i][j]))
+            else:
+                f.write("0")
+            if (j != 15):
+                f.write(",")
+            else:
+                f.write("\n")
+    f.close()
+    '''
+    
+    plt.figure(1)
+    plt.scatter(norm[:, 14], norm[:, 14], color = 'green', marker = '+')
+    plt.xlabel(colNames[14])
+    plt.ylabel(colNames[14])
+    
+    plt.figure(2)
+    plt.scatter(norm[:, 6], norm[:, 3], color = 'green', marker = '+')
+    plt.xlabel(colNames[6])
+    plt.ylabel(colNames[3])
+
+    plt.figure(3)
+    plt.scatter(norm[:, 3], norm[:, 2], color = 'green', marker = '+')
+    plt.xlabel(colNames[3])
+    plt.ylabel(colNames[2])
+
+    plt.figure(4)
+    plt.scatter(norm[:, 6], norm[:, 4], color = 'green', marker = '+')
+    plt.xlabel(colNames[6])
+    plt.ylabel(colNames[4])
+
+    plt.figure(5)
+    plt.scatter(norm[:, 15], norm[:, 7], color = 'green', marker = '+')
+    plt.xlabel(colNames[15])
+    plt.ylabel(colNames[7])
+
+    plt.show()
+    
+    
     
     
     
