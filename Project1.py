@@ -1,6 +1,6 @@
 '''
-Jessica Jorgenson
 Matthew Wintersteen
+Jessica Jorgenson
 CSCI 347 Project 1
 Python Code for Data Analysis
 '''
@@ -172,17 +172,17 @@ def main():
     #This code generates the multivariate mean and covar matrix
     #and writes the output to a csv
     #commented out to simplify things
-    '''
+    
     #multivariate mean
     multMean = computeMean(arr)
     f = open("q1.csv", "w")
     for a in range(len(multMean)):
         f.write("{},{}\n".format(colNames[a],multMean[a]))
     f.close()
-
+    
     #covariance matrix
     matrix = computeCovarMatrix(arr)
-    f = open("q2.csv", "w")
+    f = open("covarMatrix.csv", "w")
     for i in range(matrix.shape[0]):
         for j in range(matrix.shape[1]):
             f.write("{}".format(matrix[i][j]))
@@ -191,11 +191,44 @@ def main():
             else:
                 f.write("\n")
     f.close()
-    '''
-
+    #correlation matrix
+    matrix = computeCorrMatrix(arr)
+    f = open("corrMatrix.csv", "w")
+    for i in range(matrix.shape[0]):
+        for j in range(matrix.shape[1]):
+            f.write("{}".format(matrix[i][j]))
+            if (j != matrix.shape[1]-1):
+                f.write(",")
+            else:
+                f.write("\n")
+    f.close()
+    
+    #total variance
+    matrix = computeCovarMatrix(arr)
+    totalVar = 0
+    for i in range(matrix.shape[0]):
+        for j in range(matrix.shape[1]):
+            if i == j:
+                totalVar += matrix[i][j]
+    print(totalVar)
+    
+    matrix = computeCovarMatrix(arr)
+    f = open("sampleCovarMatrix.csv", "w")
+    for i in range(matrix.shape[0]):
+        for j in range(matrix.shape[1]):
+            if j == i:
+                f.write("{}".format(matrix[i][j]))
+            else:
+                f.write("0")
+            if (j != matrix.shape[1]-1):
+                f.write(",")
+            else:
+                f.write("\n")
+    f.close()
+    
     #select attributes to plot
     #commented out to simplify things
-    '''
+    
     plt.figure(1)
     plt.scatter(arr[:, 38], arr[:, 1], color = 'red', marker = 'o')
     plt.xlabel(colNames[38])
@@ -222,14 +255,14 @@ def main():
     plt.ylabel(colNames[15])
 
     plt.show()
-    '''
+    
     
     #range normalize the numerical data
-    '''
+    
     norm = rangeNorm(arr)
     
     normMatrix = computeCovarMatrix(norm)
-    f = open("q3-num.csv", "w")
+    f = open("q3.csv", "w")
     for i in range(16):
         for j in range(16):
             if j != i:
@@ -269,11 +302,11 @@ def main():
     plt.ylabel(colNames[2])
 
     plt.show()
-    '''
+    
     
     #Take the standard norm and find the correlation for numerical attributes
     norm = standardNorm(arr)
-    '''
+    
     normMatrix = computeCorrMatrix(norm)
     f = open("q4.csv", "w")
     for i in range(16):
@@ -287,12 +320,13 @@ def main():
             else:
                 f.write("\n")
     f.close()
-    '''
     
+    
+    #These plots are for greatest correlation
     plt.figure(1)
-    plt.scatter(norm[:, 14], norm[:, 14], color = 'green', marker = '+')
+    plt.scatter(norm[:, 14], norm[:, 13], color = 'green', marker = '+')
     plt.xlabel(colNames[14])
-    plt.ylabel(colNames[14])
+    plt.ylabel(colNames[13])
     
     plt.figure(2)
     plt.scatter(norm[:, 6], norm[:, 3], color = 'green', marker = '+')
@@ -317,6 +351,33 @@ def main():
     plt.show()
     
     
+    #These plots are for least correlation
+    plt.figure(1)
+    plt.scatter(norm[:, 13], norm[:, 11], color = 'purple', marker = 'v')
+    plt.xlabel(colNames[13])
+    plt.ylabel(colNames[11])
+    
+    plt.figure(2)
+    plt.scatter(norm[:, 14], norm[:, 6], color = 'purple', marker = 'v')
+    plt.xlabel(colNames[14])
+    plt.ylabel(colNames[6])
+
+    plt.figure(3)
+    plt.scatter(norm[:, 14], norm[:, 11], color = 'purple', marker = 'v')
+    plt.xlabel(colNames[14])
+    plt.ylabel(colNames[11])
+
+    plt.figure(4)
+    plt.scatter(norm[:, 13], norm[:, 6], color = 'purple', marker = 'v')
+    plt.xlabel(colNames[13])
+    plt.ylabel(colNames[6])
+
+    plt.figure(5)
+    plt.scatter(norm[:, 14], norm[:, 3], color = 'purple', marker = 'v')
+    plt.xlabel(colNames[14])
+    plt.ylabel(colNames[3])
+
+    plt.show()
     
     
     
